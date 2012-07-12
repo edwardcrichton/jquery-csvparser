@@ -280,5 +280,68 @@ function($)
 	
 	}
 	);
+	
+	var methods=
+	{
+		// loads a csv as an html table into $(this) element
+		// and returns the table for chaining
+		
+		table: function(csv,options)
+		{
+			var parser=$.getCSVParser(options);
+			var array = parser(csv);
+			var thead=$('<thead/>');
+			var tbody=$('<tbody/>');
+
+			var tr=$('<tr/>');
+			var td=$('<td/>');
+			var th=$('<th/>');
+			
+			var element = $(this);
+				
+			var table=$('<table/>');
+				
+			for(var i=0;i<1;i++)
+			{
+				var thisTR=tr.clone(true);
+				thead.append(thisTR);
+				for(var j=0;j<array[i].length;j++)
+				{
+					var thisTD=th.clone(true).append(array[i][j]);
+					thisTR.append(thisTD);
+				}
+			}
+
+			for(var i=1;i<array.length;i++)
+			{
+				var thisTR=tr.clone(true);
+				tbody.append(thisTR);
+				for(var j=0;j<array[i].length;j++)
+				{
+					var thisTD=td.clone(true).append(array[i][j]);
+					thisTR.append(thisTD);
+				}
+			}
+
+			table.append(thead);
+			table.append(tbody);
+			element.append(table);
+			
+			return table;
+		}
+	};
+	
+	$.fn.csvparser = function( method )
+	{
+    
+    		if ( methods[method] )
+		{
+      			return methods[ method ].apply( this, Array.prototype.slice.call(arguments,1) );
+    		}
+		else
+		{
+      			$.error( 'Method ' +  method + ' does not exist on jQuery.csvparser' );
+		}
+  	};
 }
 )(jQuery);
